@@ -8,9 +8,14 @@ import PyQt4.uic as uic
 import PyQt4.QtCore as QtCore
 
 try:
-    import drqueue.base.libdrqueue as drqueue
+    import DrQueue
+    from DrQueue import Job as DrQueueJob
+    from DrQueue import Client as DrQueueClient
 except:
-    raise "libdrqueue not found! please check drqueue python installation"
+    raise "DrQueue module not found! Please check DrQueueIPython installation."
+
+# initialize DrQueue client
+client = DrQueueClient()
 
 current_path = os.path.dirname(__file__)
 
@@ -25,11 +30,11 @@ newJob_widget_class, newJob_base_class = uic.loadUiType(newJob_ui_path)
 
 
 def get_all_jobs():
-    job_list = drqueue.request_job_list(drqueue.CLIENT)
+    job_list = client.query_job_list()
     return job_list
 
 def get_all_slaves():
-    computer_list = drqueue.request_computer_list(drqueue.CLIENT)
+    computer_list = client.ip_client.ids
     return computer_list
 
 class Timer(QtCore.QThread):

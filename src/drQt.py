@@ -18,9 +18,14 @@ import PyQt4.QtCore as QtCore
 import PyQt4.QtWebKit as QtWebKit
 
 try:
-	import drqueue.base.libdrqueue as drqueue
+    import DrQueue
+    from DrQueue import Job as DrQueueJob
+    from DrQueue import Client as DrQueueClient
 except:
-	raise "libdrqueue not found! please check drqueue python installation"
+    raise "DrQueue module not found! Please check DrQueueIPython installation."
+
+# initialize DrQueue client
+client = DrQueueClient()
 
 from lib.slaveTab import SlaveNodeTab
 from lib.jobTab import JobTab

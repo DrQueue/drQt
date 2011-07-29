@@ -7,7 +7,15 @@ from pprint import pformat
 import PyQt4.QtGui as QtGui
 import PyQt4.QtCore as QtCore
 
-import drqueue.base.libdrqueue as drqueue
+try:
+    import DrQueue
+    from DrQueue import Job as DrQueueJob
+    from DrQueue import Client as DrQueueClient
+except:
+    raise "DrQueue module not found! Please check DrQueueIPython installation."
+
+# initialize DrQueue client
+client = DrQueueClient()
 
 from utils import icons_path
 from utils import tooltips_path
@@ -67,20 +75,37 @@ class SlaveNodeTab(QtGui.QWidget):
         self._set_tooltip()
         
     def _set_values(self):
-        self._tab_id.setText("%d"%self._drq_node_object.hwinfo.id)
-        self._tab_name.setText("%s"%self._drq_node_object.hwinfo.name)
-        self._tab_enabled.setPixmap( self.icons[self._drq_node_object.limits.enabled].scaled(25,25))
+        comp = client.identify_computer(self._drq_node_object)
+        #    print(" hostname: "+comp['hostname'])
+        #    print(" arch: "+comp['arch'])
+        #    print(" os: "+comp['os'])
+        #    print(" nbits: "+str(comp['nbits']))
+        #    print(" procspeed: "+comp['procspeed'])
+        #    print(" ncpus: "+str(comp['ncpus']))
+        #    print(" ncorescpu: "+str(comp['ncorescpu']))
+        #    print(" memory: "+comp['memory'])
+        #    print(" load: "+comp['load'])
+        #    print(" pools: "+str(DrQueueComputer(computer).get_pools())+"\n")
+
+        self._tab_id.setText("%d" % self._drq_node_object)
+        self._tab_name.setText("%s" % comp['hostname'])
+        #self._tab_enabled.setPixmap( self.icons[self._drq_node_object.limits.enabled].scaled(25,25))
         
-        self._tab_loadavg.setText("%d:%d:%d"%(self._drq_node_object.status.get_loadavg(0),
-                                              self._drq_node_object.status.get_loadavg(1),
-                                              self._drq_node_object.status.get_loadavg(2)))
+        #self._tab_loadavg.setText("%d:%d:%d"%(self._drq_node_object.status.get_loadavg(0),
+        #                                      self._drq_node_object.status.get_loadavg(1),
+        #                                      self._drq_node_object.status.get_loadavg(2)))
+        load = comp['load'].split(" ")
+        load_0 = int(float(load[0].replace(',', '.'))*100)
+        load_1 = int(float(load[1].replace(',', '.'))*100)
+        load_2 = int(float(load[2].replace(',', '.'))*100)
+        self._tab_loadavg.setText("%d:%d:%d" % (load_0, load_1, load_2))
         
-        self._tab_os.setText("%s"%drqueue.osstring(self._drq_node_object.hwinfo.os))
-        self._tab_cpus.setText("%d"%self._drq_node_object.hwinfo.ncpus)
+        self._tab_os.setText("%s" % comp['os'])
+        self._tab_cpus.setText("%d" % comp['ncpus'])
         
-        for i in range(self._drq_node_object.limits.npools):
-            pool = self._drq_node_object.limits.get_pool(i).name
-            self._tab_pools.addItem("%s"%pool)
+        #for i in range(self._drq_node_object.limits.npools):
+        #    pool = self._drq_node_object.limits.get_pool(i).name
+        #    self._tab_pools.addItem("%s"%pool)
                 
     def _set_context(self):
         for column in self.columns:
@@ -88,18 +113,19 @@ class SlaveNodeTab(QtGui.QWidget):
             self.connect(column, QtCore.SIGNAL("customContextMenuRequested(QPoint)"), self._create_context)            
 
     def _set_tooltip(self):
-        html_tooltip=open(os.path.join(tooltips_path,"node_info.html"),"r")
-        tooltipData ={}
-        tooltipData["id"]=self._drq_node_object.hwinfo.id
-        tooltipData["arch"]=drqueue.archstring(self._drq_node_object.hwinfo.arch)
-        tooltipData["memory"]=self._drq_node_object.hwinfo.memory
-        tooltipData["name"]=self._drq_node_object.hwinfo.name
-        tooltipData["ncpus"]=self._drq_node_object.hwinfo.ncpus
-        tooltipData["nnbits"]=drqueue.bitsstring(self._drq_node_object.hwinfo.nnbits)
-        tooltipData["os"]=drqueue.osstring(self._drq_node_object.hwinfo.os)
-        tooltipData["procspeed"]=self._drq_node_object.hwinfo.procspeed
-        tooltipData["proctype"]=drqueue.proctypestring(self._drq_node_object.hwinfo.proctype)
-        tooltipData["speedindex"]=self._drq_node_object.hwinfo.speedindex
+        html_tooltip = open(os.path.join(tooltips_path,"node_info.html"),"r")
+        tooltipData = {}
+        comp = client.identify_computer(self._drq_node_object)
+        tooltipData["id"] = self._drq_node_object
+        tooltipData["arch"] = comp['arch']
+        tooltipData["memory"] = comp['memory']
+        tooltipData["name"] = comp['hostname']
+        tooltipData["ncpus"] = str(comp['ncpus'])
+        tooltipData["nnbits"] = str(comp['nbits'])
+        tooltipData["os"] = comp['os']
+        tooltipData["procspeed"] = comp['procspeed']
+        tooltipData["proctype"] = ""
+        tooltipData["speedindex"] = comp['procspeed']
         
         formattedTolltip=str(html_tooltip.read()).format(**tooltipData)
         

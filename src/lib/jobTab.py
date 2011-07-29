@@ -14,7 +14,15 @@ except:
 import PyQt4.QtGui as QtGui
 import PyQt4.QtCore as QtCore
 
-import drqueue.base.libdrqueue as drqueue
+try:
+    import DrQueue
+    from DrQueue import Job as DrQueueJob
+    from DrQueue import Client as DrQueueClient
+except:
+    raise "DrQueue module not found! Please check DrQueueIPython installation."
+
+# initialize DrQueue client
+client = DrQueueClient()
 
 from utils import icons_path
 from utils import tooltips_path
@@ -102,21 +110,23 @@ class JobTab(QtGui.QWidget):
         """
         set tab values using the drq job object 
         """
-        self._tab_id.setText("%s"%self._drq_job_object.id)        
-        self._tab_name.setText("%s"%self._drq_job_object.name)
-        self._tab_owner.setText("%s"%self._drq_job_object.owner)
-        self._tab_status.setPixmap( self.icons[self._drq_job_object.status].scaled(25,25))
-        self._tab_procs.setText("%d"%self._drq_job_object.nprocs)
+        self._tab_id.setText("%s"%self._drq_job_object['_id'])        
+        self._tab_name.setText("%s"%self._drq_job_object['name'])
+        self._tab_owner.setText("%s"%self._drq_job_object['owner'])
+        #self._tab_status.setPixmap( self.icons[self._drq_job_object.status].scaled(25,25))
+        #self._tab_procs.setText("%d"%self._drq_job_object.nprocs)
         
-        tot_frames=self._drq_job_object.frame_end-self._drq_job_object.frame_start
-        
-        difframes=float(self._drq_job_object.fleft)/float(tot_frames)
-        
+        tot_frames=self._drq_job_object['endframe']-self._drq_job_object['startframe']
+        left = client.query_job_frames_left(self._drq_job_object['_id'])
+        if left > 0:
+            difframes = float(left / tot_frames)
+        else:
+            difframes = 0
         done =100-(difframes*100)
                         
-        self._tab_done.setValue(int(done))
-        self._tab_priority.setValue(int(self._drq_job_object.priority))
-        self._tab_pool.setText("%s"%self._drq_job_object.limits.pool)
+        #self._tab_done.setValue(int(done))
+        #self._tab_priority.setValue(int(self._drq_job_object.priority))
+        #self._tab_pool.setText("%s"%self._drq_job_object.limits.pool)
             
 #        id = self._drq_job_object.id
 #        print self._drq_job_object.name
@@ -145,13 +155,13 @@ class JobTab(QtGui.QWidget):
         """
         html_tooltip=open(os.path.join(tooltips_path,"job_info.html"),"r")
         tooltipData ={}
-        tooltipData["cmd"]=self._drq_job_object.cmd
-        tooltipData["envvars"]=self._drq_job_object.envvars
-        tooltipData["dependid"]=self._drq_job_object.dependid
+        #tooltipData["cmd"]=self._drq_job_object.cmd
+        #tooltipData["envvars"]=self._drq_job_object.envvars
+        #tooltipData["dependid"]=self._drq_job_object.dependid
         
-        formattedTolltip=str(html_tooltip.read()).format(**tooltipData)
-        for column in self.columns:
-            column.setToolTip(formattedTolltip)
+        #formattedTolltip=str(html_tooltip.read()).format(**tooltipData)
+        #for column in self.columns:
+        #    column.setToolTip(formattedTolltip)
                 
     def _emit_uptdate(self):
         log.debug("emit update")
