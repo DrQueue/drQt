@@ -35,13 +35,7 @@ class JobTab(QtGui.QWidget):
         super(JobTab,self).__init__(parent=parent)
         self._drq_job_object = drq_job_object
                 
-        self.columns=[]        
-        self.icons=[]      
-         
-        self.icons.append(QtGui.QPixmap(os.path.join(icons_path,"running.png")))  
-        self.icons.append(QtGui.QPixmap(os.path.join(icons_path,"running.png")))  
-        self.icons.append(QtGui.QPixmap(os.path.join(icons_path,"stop.png")))
-        self.icons.append(QtGui.QPixmap(os.path.join(icons_path,"ok.png")))
+        self.columns=[]
         
         self._tab_id=QtGui.QLabel()
         self._tab_id.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
@@ -59,23 +53,32 @@ class JobTab(QtGui.QWidget):
         self._tab_status.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_status)
         
-        self._tab_procs=QtGui.QLabel()
-        self._tab_procs.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.columns.append(self._tab_procs)
+        # currently not supported
+        #self._tab_procs=QtGui.QLabel()
+        #self._tab_procs.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        #self.columns.append(self._tab_procs)
         
-        self._tab_priority=QtGui.QSpinBox()
-        self._tab_priority.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self._tab_priority.setMaximum(5000)
-        self.columns.append(self._tab_priority)
+        # currently not supported
+        #self._tab_priority=QtGui.QSpinBox()
+        #self._tab_priority.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        #self._tab_priority.setMaximum(5000)
+        #self.columns.append(self._tab_priority)
+
+        self._tab_tasks_total=QtGui.QLabel()
+        self._tab_tasks_total.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.columns.append(self._tab_tasks_total)
+
+        self._tab_tasks_left=QtGui.QLabel()
+        self._tab_tasks_left.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.columns.append(self._tab_tasks_left)
+
+        self._tab_tasks_done=QtGui.QProgressBar()
+        self._tab_tasks_done.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.columns.append(self._tab_tasks_done)
 
         self._tab_pool=QtGui.QLabel()
         self._tab_pool.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        #self._tab_pool.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_pool)
-
-        self._tab_done=QtGui.QProgressBar()
-        self._tab_done.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
-        self.columns.append(self._tab_done)
         
         self._set_values()
         self._set_context()
@@ -113,21 +116,39 @@ class JobTab(QtGui.QWidget):
         self._tab_id.setText("%s"%self._drq_job_object['_id'])        
         self._tab_name.setText("%s"%self._drq_job_object['name'])
         self._tab_owner.setText("%s"%self._drq_job_object['owner'])
-        #self._tab_status.setPixmap( self.icons[self._drq_job_object.status].scaled(25,25))
-        #self._tab_procs.setText("%d"%self._drq_job_object.nprocs)
-        
+
+        pic = ""
+        status = client.job_status(self._drq_job_object['_id'])
+        if status == None:
+            pic = QtGui.QPixmap(os.path.join(icons_path,"help-browser.png"))
+        if status == "ok":
+            pic = QtGui.QPixmap(os.path.join(icons_path,"ok.png"))
+        if status == "pending":
+            pic = QtGui.QPixmap(os.path.join(icons_path,"running.png"))
+        if status == "error":
+            pic = QtGui.QPixmap(os.path.join(icons_path,"dialog-warning.png"))
+        if status == "aborted":
+            pic = QtGui.QPixmap(os.path.join(icons_path,"stop.png"))
+        print(status)
+        self._tab_status.setPixmap(pic.scaled(25,25))
+
         tot_frames=self._drq_job_object['endframe']-self._drq_job_object['startframe']
         left = client.query_job_frames_left(self._drq_job_object['_id'])
         if left > 0:
             difframes = float(left / tot_frames)
         else:
             difframes = 0
-        done =100-(difframes*100)
-                        
-        #self._tab_done.setValue(int(done))
+        done = 100-(difframes*100)
+
+        self._tab_tasks_total.setText(str(tot_frames))
+        self._tab_tasks_left.setText(str(left))
+        self._tab_tasks_done.setValue(int(done))
+
+        # currently not supported
         #self._tab_priority.setValue(int(self._drq_job_object.priority))
-        #self._tab_pool.setText("%s"%self._drq_job_object.limits.pool)
-            
+
+        self._tab_pool.setText("%s" % str(self._drq_job_object['pool']))
+
 #        id = self._drq_job_object.id
 #        print self._drq_job_object.name
 #                
@@ -139,7 +160,7 @@ class JobTab(QtGui.QWidget):
 #                print ">>",id,self._drq_job_object.envvars.variables.ptr[i].name
 #            var= drqueue.request_job_envvars(id,self._drq_job_object.envvars,i)
 #            print var, type(var)
-            
+
     def _set_context(self):
         """
         bind the context menu to all the columns
@@ -201,11 +222,11 @@ class JobTab(QtGui.QWidget):
         
         rerunAct = QtGui.QAction("&Re Run",self)
         rerunAct.setToolTip("Re run the job")
-        self.connect(rerunAct, QtCore.SIGNAL('triggered()'), self._rerun_job) 
+        self.connect(rerunAct, QtCore.SIGNAL('triggered()'), self._rerun_job)
         
         stopAct = QtGui.QAction("&Stop",self)
         stopAct.setToolTip("stop the running job")
-        self.connect(stopAct, QtCore.SIGNAL('triggered()'), self._stop_job) 
+        self.connect(stopAct, QtCore.SIGNAL('triggered()'), self._stop_job)
                 
         hstopAct = QtGui.QAction("&Hard Stop",self)
         hstopAct.setToolTip("hard stop the running job")
@@ -213,15 +234,15 @@ class JobTab(QtGui.QWidget):
         
         continueAct = QtGui.QAction("&Continue",self)
         continueAct.setToolTip("Continue the stop job")
-        self.connect(continueAct, QtCore.SIGNAL('triggered()'), self._continue_job) 
+        self.connect(continueAct, QtCore.SIGNAL('triggered()'), self._continue_job)
         
         deleteAct = QtGui.QAction("&Delete",self)
         deleteAct.setToolTip("delete the job")
-        self.connect(deleteAct, QtCore.SIGNAL('triggered()'), self._delete_job) 
+        self.connect(deleteAct, QtCore.SIGNAL('triggered()'), self._delete_job)
 
         nodedAct = QtGui.QAction("Node &View",self)
-        nodedAct.setToolTip("view job dependencies")    
-        self.connect(nodedAct, QtCore.SIGNAL('triggered()'), self._node_view_show)  
+        nodedAct.setToolTip("view job dependencies")
+        self.connect(nodedAct, QtCore.SIGNAL('triggered()'), self._node_view_show)
         
         # Create a menu
         menu = QtGui.QMenu("Menu", self)
@@ -249,9 +270,10 @@ class JobTab(QtGui.QWidget):
         table.setCellWidget(index,1,self._tab_name)
         table.setCellWidget(index,2,self._tab_owner)
         table.setCellWidget(index,3,self._tab_status) 
-        table.setCellWidget(index,4,self._tab_procs) 
-        #table.setCellWidget(index,5,self._tab_left) 
-        table.setCellWidget(index,5,self._tab_done) 
-        table.setCellWidget(index,6,self._tab_priority) 
+        table.setCellWidget(index,4,self._tab_tasks_total)
+        table.setCellWidget(index,5,self._tab_tasks_left)
+        table.setCellWidget(index,6,self._tab_tasks_done)
+        # currently not supported
+        #table.setCellWidget(index,6,self._tab_priority)
         table.setCellWidget(index,7,self._tab_pool) 
         

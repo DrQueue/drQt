@@ -52,7 +52,8 @@ class AboutDialog(QtGui.QDialog):
 
 class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
     node_properties=["Id","Enabled","Running","Name","Os","CPUs","Load Avg","Pools"]
-    job_properties=["Id","Name","Owner","Status","Process","Done","Priority","Pool"]
+    #job_properties=["Id","Name","Owner","Status","Process","Done","Priority","Pool"]
+    job_properties=["Id","Name","Owner","Status","Total","Left","Done","Pool"]
     
     def __init__(self,parent=None):
         super(drQt,self).__init__(parent=parent)
@@ -202,7 +203,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
     def set_main_icons(self):
         self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path,"main.svg")))
         self.TW_main.setTabIcon(0,QtGui.QIcon(os.path.join(icons_path,"job.svg")))
-        self.TW_main.setTabIcon(1,QtGui.QIcon(os.path.join(icons_path,"nodes.svg")))        
+        self.TW_main.setTabIcon(1,QtGui.QIcon(os.path.join(icons_path,"network-transmit-receive.svg")))
         
     
     def _create_context(self,QPoint):
