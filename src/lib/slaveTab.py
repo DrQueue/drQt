@@ -26,47 +26,46 @@ log.setLevel(logging.DEBUG)
 
 class SlaveNodeTab(QtGui.QWidget):
     
-    def __init__(self,drq_node_object=None,parent=None):
-        super(SlaveNodeTab,self).__init__(parent=parent)
-        self._drq_node_object=drq_node_object
+    def __init__(self, drq_node_object=None, parent=None):
+        super(SlaveNodeTab, self).__init__(parent=parent)
+        self._drq_node_object = drq_node_object
                  
-        self.columns=[] 
+        self.columns = [] 
                
         self.icons=[]       
-
-        self.icons.append(QtGui.QPixmap(os.path.join(icons_path,"stop.png")))
-        self.icons.append(QtGui.QPixmap(os.path.join(icons_path,"ok.png")))       
+        self.icons.append(QtGui.QPixmap(os.path.join(icons_path, "stop.png")))
+        self.icons.append(QtGui.QPixmap(os.path.join(icons_path, "ok.png")))       
         #node_properties=["Id","Enabled","Running","Name","Os","CPUs","Load Avg","Pools"]
         
-        self._tab_id=QtGui.QLabel()
+        self._tab_id = QtGui.QLabel()
         self._tab_id.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter) 
         self.columns.append(self._tab_id)
         
-        self._tab_enabled=QtGui.QLabel()
+        self._tab_enabled = QtGui.QLabel()
         self._tab_enabled.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)                
         self.columns.append(self._tab_enabled)
         
-        self._tab_running=QtGui.QLabel()
+        self._tab_running = QtGui.QLabel()
         self._tab_running.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)  
         self.columns.append(self._tab_running)
                
-        self._tab_name=QtGui.QLabel()
+        self._tab_name = QtGui.QLabel()
         self._tab_name.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_name)
         
-        self._tab_os=QtGui.QLabel()
+        self._tab_os = QtGui.QLabel()
         self._tab_os.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_os)
 
-        self._tab_cpus=QtGui.QLabel()
+        self._tab_cpus = QtGui.QLabel()
         self._tab_cpus.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_cpus)
         
-        self._tab_loadavg=QtGui.QLabel()
+        self._tab_loadavg = QtGui.QLabel()
         self._tab_loadavg.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_loadavg)
         
-        self._tab_pools=QtGui.QComboBox()
+        self._tab_pools = QtGui.QComboBox()
         #self._tab_pools.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         self.columns.append(self._tab_pools)
         
@@ -113,7 +112,7 @@ class SlaveNodeTab(QtGui.QWidget):
             self.connect(column, QtCore.SIGNAL("customContextMenuRequested(QPoint)"), self._create_context)            
 
     def _set_tooltip(self):
-        html_tooltip = open(os.path.join(tooltips_path,"node_info.html"),"r")
+        html_tooltip = open(os.path.join(tooltips_path,"node_info.html"), "r")
         tooltipData = {}
         comp = client.identify_computer(self._drq_node_object)
         tooltipData["id"] = self._drq_node_object
@@ -134,10 +133,10 @@ class SlaveNodeTab(QtGui.QWidget):
             
     def _create_context(self,QPoint):
 
-        enableAct = QtGui.QAction("&Enable",self)        
+        enableAct = QtGui.QAction("&Enable", self)        
         self.connect(enableAct, QtCore.SIGNAL('triggered()'), self._enable_slave) 
         
-        disableAct = QtGui.QAction("&Disable",self)   
+        disableAct = QtGui.QAction("&Disable", self)   
         self.connect(disableAct, QtCore.SIGNAL('triggered()'), self._disable_slave) 
         
         menu = QtGui.QMenu("Menu", self) 
@@ -158,11 +157,12 @@ class SlaveNodeTab(QtGui.QWidget):
         self.emit(QtCore.SIGNAL("update"))  
                         
     def add_to_table(self,table,index):
-            table.setCellWidget(index,0,self._tab_id)
-            table.setCellWidget(index,1,self._tab_enabled)
-            table.setCellWidget(index,2,self._tab_running)
-            table.setCellWidget(index,3,self._tab_name) 
-            table.setCellWidget(index,4,self._tab_os) 
-            table.setCellWidget(index,5,self._tab_cpus) 
-            table.setCellWidget(index,6,self._tab_loadavg) 
-            table.setCellWidget(index,7,self._tab_pools) 
+            table.setCellWidget(index,0, self._tab_id)
+            table.setCellWidget(index,1, self._tab_enabled)
+            table.setCellWidget(index,2, self._tab_running)
+            table.setCellWidget(index,3, self._tab_name) 
+            table.setCellWidget(index,4, self._tab_os) 
+            table.setCellWidget(index,5, self._tab_cpus) 
+            table.setCellWidget(index,6, self._tab_loadavg) 
+            table.setCellWidget(index,7, self._tab_pools)
+

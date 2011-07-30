@@ -3,7 +3,7 @@
 import sys
 import os
 
-os.environ["DEBUG"]="1"
+os.environ["DEBUG"] = "1"
 
 try:
     # https://github.com/hdd/hlog
@@ -37,16 +37,16 @@ import lib.utils
 import lib.ui.drQt_UI as drQtUI
 
 class AboutDialog(QtGui.QDialog):
-    def __init__(self,parent=None):
+    def __init__(self, parent=None):
         super(AboutDialog,self).__init__(parent)
-        layout=QtGui.QVBoxLayout()
+        layout = QtGui.QVBoxLayout()
         self.setLayout(layout)
-        web_view=QtWebKit.QWebView()
+        web_view = QtWebKit.QWebView()
         layout.addWidget(web_view)
-        url=QtCore.QUrl("lib/ui/about.html")
+        url = QtCore.QUrl("lib/ui/about.html")
         web_view.load(url)
         self.setFixedSize(600, 750)
-        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path,"about.svg")))
+        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "about.svg")))
         self.setWindowTitle("About")
 
 
@@ -64,11 +64,11 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
             raise "NO MASTER FOUND"
         
         self.setupUi(self)
-        self._timer_=Timer(parent=self)
-        self.timer_interrupt=0
-        self.jobs_tab_list=[]
-        self.nodes_tab_list=[]
-        self._selected_job_row= None
+        self._timer_ = Timer(parent=self)
+        self.timer_interrupt = 0
+        self.jobs_tab_list = []
+        self.nodes_tab_list = []
+        self._selected_job_row = None
         
         self.setup_main()
         self.PB_refresh.clicked.connect(self.refresh)
@@ -83,32 +83,32 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
                             QtCore.Qt.WindowCloseButtonHint | 
                             QtCore.Qt.WindowMaximizeButtonHint)   
              
-        self.LB_header.setPixmap(QtGui.QPixmap(os.path.join(icons_path,"drQHeader.png")))   
-        self.connect(self.TW_job,QtCore.SIGNAL("cellClicked(int,int)"),self._store_selected_job)
+        self.LB_header.setPixmap(QtGui.QPixmap(os.path.join(icons_path, "drQHeader.png")))   
+        self.connect(self.TW_job,QtCore.SIGNAL("cellClicked(int,int)"), self._store_selected_job)
         self.connect(self.TW_job,QtCore.SIGNAL("customContextMenuRequested(QPoint)"), self._create_context)
         
     def _raise_new_job(self):
         log.debug("start new job")
-        newjobD=NewJob(self)
+        newjobD = NewJob(self)
         newjobD.show()    
                     
     def _raise_about(self):
         aboutD= AboutDialog(self)
         aboutD.show()   
         
-    def _store_selected_job(self,row,column):
+    def _store_selected_job(self, row,column):
         self._selected_job_row = row
             
     def setup_menu_bar(self):
         menu_bar = self.menuBar()
         job_bar = menu_bar.addMenu("&Job")
-        new_job =QtGui.QAction("&New Job",self)
+        new_job = QtGui.QAction("&New Job",self)
         self.connect(new_job, QtCore.SIGNAL('triggered()'), self._raise_new_job)
         job_bar.addAction(new_job)
         
         help_bar = menu_bar.addMenu("&Help")
         
-        About =QtGui.QAction("&About",self)
+        About = QtGui.QAction("&About",self)
         self.connect(About, QtCore.SIGNAL('triggered()'), self._raise_about)
         help_bar.addAction(About)
 
@@ -157,7 +157,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
         self.TW_node.repaint()
         
         if self._selected_job_row != None:
-            log.debug("restore row selection %s"%self._selected_job_row)
+            log.debug("restore row selection %s" % self._selected_job_row)
             self.TW_job.setCurrentCell(self._selected_job_row,0)
         
         self.setCursor(QtCore.Qt.ArrowCursor);
@@ -165,7 +165,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
     def set_autorefresh(self,status):
         if status:
             log.debug("autorefresh:ON")
-            refresh_time=self.SB_refresh_time.value()
+            refresh_time = self.SB_refresh_time.value()
             self._timer_.set_run_time(refresh_time)
             self._timer_.start()
         else:
@@ -176,42 +176,39 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
         self.jobs_tab_list=[]
         log.debug("building job tabs...")
         self.TW_job.clearContents()
-        jobs=lib.utils.get_all_jobs()
+        jobs = lib.utils.get_all_jobs()
         num_jobs = len(jobs)
-        log.debug("num jobs %s"%num_jobs)
+        log.debug("num jobs %s" % num_jobs)
         self.TW_job.setRowCount(num_jobs)        
 
         for i in range(num_jobs):
-            job_tab = JobTab(jobs[i],parent=self.TW_job)
+            job_tab = JobTab(jobs[i],parent = self.TW_job)
             job_tab.add_to_table(self.TW_job, i)
             self.connect(job_tab, QtCore.SIGNAL('update'), self.refresh)
             self.jobs_tab_list.append(job_tab)
         
     def init_slaves_tabs(self):
-        self.nodes_tab_list=[]
+        self.nodes_tab_list = []
         log.debug("building nodes tabs...")
-        nodes=lib.utils.get_all_slaves()
+        nodes = lib.utils.get_all_slaves()
         num_nodes = len(nodes)
         self.TW_node.setRowCount(num_nodes)
         for i in range(num_nodes):
-            log.debug("create slave Node Tab : %s"%type(nodes[i]))
-            node_tab = SlaveNodeTab(nodes[i],parent=self.TW_node)
+            log.debug("create slave Node Tab : %s" % type(nodes[i]))
+            node_tab = SlaveNodeTab(nodes[i],parent = self.TW_node)
             node_tab.add_to_table(self.TW_node, i)
             self.connect(node_tab, QtCore.SIGNAL('update'), self.refresh)
             self.nodes_tab_list.append(node_tab)
             
     def set_main_icons(self):
-        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path,"main.svg")))
-        self.TW_main.setTabIcon(0,QtGui.QIcon(os.path.join(icons_path,"job.svg")))
-        self.TW_main.setTabIcon(1,QtGui.QIcon(os.path.join(icons_path,"network-transmit-receive.svg")))
+        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "main.svg")))
+        self.TW_main.setTabIcon(0,QtGui.QIcon(os.path.join(icons_path, "job.svg")))
+        self.TW_main.setTabIcon(1,QtGui.QIcon(os.path.join(icons_path, "network-transmit-receive.svg")))
         
     
     def _create_context(self,QPoint):
-        """
-        create the context menu
-        """
-        #print currentItem._tab_id
-        newAct =QtGui.QAction("&New Job",self)
+        """ create the context menu """
+        newAct = QtGui.QAction("&New Job",self)
         newAct.setToolTip("createa new job")
         self.connect(newAct, QtCore.SIGNAL('triggered()'), self._new_job_show)  
         
