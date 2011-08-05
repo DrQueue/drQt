@@ -127,20 +127,23 @@ class JobTab(QtGui.QWidget):
             pic = QtGui.QPixmap(os.path.join(icons_path, "dialog-warning.png"))
         if status == "aborted":
             pic = QtGui.QPixmap(os.path.join(icons_path, "stop.png"))
-        print(status)
+        #print(status)
         self._tab_status.setPixmap(pic.scaled(25,25))
 
-        tot_frames = self._drq_job_object['endframe'] - self._drq_job_object['startframe']
-        left = client.query_job_frames_left(self._drq_job_object['_id'])
-        if left > 0:
-            difframes = float(left / tot_frames)
+        tasks_total = len(client.query_task_list(self._drq_job_object['_id']))
+        #print("total: %i" % tasks_total)
+        tasks_left = client.query_job_tasks_left(self._drq_job_object['_id'])
+        #print("left: %i" % tasks_left)
+        if tasks_left > 0:
+            diff_tasks = float(tasks_left) / float(tasks_total)
         else:
-            difframes = 0
-        done = 100 - (difframes * 100)
+            diff_tasks = 0
+        #print("diff: %f" % diff_tasks)
+        tasks_done = 100 - (diff_tasks * 100)
 
-        self._tab_tasks_total.setText(str(tot_frames))
-        self._tab_tasks_left.setText(str(left))
-        self._tab_tasks_done.setValue(int(done))
+        self._tab_tasks_total.setText(str(tasks_total))
+        self._tab_tasks_left.setText(str(tasks_left))
+        self._tab_tasks_done.setValue(int(tasks_done))
 
         # currently not supported
         #self._tab_priority.setValue(int(self._drq_job_object.priority))
@@ -170,7 +173,7 @@ class JobTab(QtGui.QWidget):
         build up the tooltip using the drq job object
         bind the tooltip to all the columns
         """
-        html_tooltip=open(os.path.join(tooltips_path,"job_info.html"), "r")
+        html_tooltip = open(os.path.join(tooltips_path,"job_info.html"), "r")
         tooltipData ={}
         #tooltipData["cmd"]=self._drq_job_object.cmd
         #tooltipData["envvars"]=self._drq_job_object.envvars
@@ -185,23 +188,23 @@ class JobTab(QtGui.QWidget):
         self.emit(QtCore.SIGNAL("update"))
                     
     def _stop_job(self):
-        self._drq_job_object.request_stop(drqueue.CLIENT)
+        client.job_stop(self._drq_job_object['_id'])
         self._emit_uptdate()
     
     def _hardstop_job(self):
-        self._drq_job_object.request_hard_stop(drqueue.CLIENT)     
+        client.job_kill(self._drq_job_object['_id'])
         self._emit_uptdate()
             
     def _rerun_job(self):
-        self._drq_job_object.request_rerun(drqueue.CLIENT)     
+        client.job_rerun(self._drq_job_object['_id'])
         self._emit_uptdate()
     
     def _delete_job(self):       
-        self._drq_job_object.request_delete(drqueue.CLIENT)   
+        client.job_delete(self._drq_job_object['_id'])
         self._emit_uptdate()    
     
     def _continue_job(self):       
-        self._drq_job_object.request_continue(drqueue.CLIENT)              
+        client.job_continue(self._drq_job_object['_id'])
         self._emit_uptdate() 
            
     def _create_context(self,QPoint):

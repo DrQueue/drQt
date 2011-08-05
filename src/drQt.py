@@ -51,9 +51,8 @@ class AboutDialog(QtGui.QDialog):
 
 
 class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
-    node_properties=["Id","Enabled","Running","Name","Os","CPUs","Load Avg","Pools"]
-    #job_properties=["Id","Name","Owner","Status","Process","Done","Priority","Pool"]
-    job_properties=["Id","Name","Owner","Status","Total","Left","Done","Pool"]
+    node_properties=["Id", "Hostname", "Arch", "OS", "Nbits", "Procspeed", "CPUs", "Cores each CPU", "Memory", "Load average", "Pools"]
+    job_properties=["Id", "Name", "Owner", "Status", "Total tasks", "Tasks left", "Done", "Pool"]
     
     def __init__(self,parent=None):
         super(drQt,self).__init__(parent=parent)
