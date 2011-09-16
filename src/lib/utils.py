@@ -28,6 +28,9 @@ main_widget_class, main_base_class = uic.loadUiType(main_ui_path)
 newJob_ui_path = os.path.join(current_path,"ui", "newJob.ui")
 newJob_widget_class, newJob_base_class = uic.loadUiType(newJob_ui_path)
 
+sendJob_ui_path = os.path.join(current_path,"ui", "send_job.ui")
+sendJob_widget_class, sendJob_base_class = uic.loadUiType(sendJob_ui_path)
+
 
 def get_all_jobs():
     job_list = client.query_job_list()

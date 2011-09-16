@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SendJob</class>
+ <widget class="QDialog" name="SendJob">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>550</width>
+    <height>504</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>460</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>511</width>
+     <height>441</height>
+    </rect>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="first_tab">
+    <attribute name="title">
+     <string>Basic</string>
+    </attribute>
+    <widget class="QLineEdit" name="name_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>10</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="startframe_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="name_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>10</y>
+       <width>62</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="startframe_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>60</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Startframe</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="endframe_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>110</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Endframe</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="endframe_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>110</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="blocksize_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>160</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Blocksize</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="blocksize_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>160</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="render_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>210</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Renderer</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="scenefile_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>250</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Scenefile</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="scenefile_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>250</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="options_label">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>290</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Options</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="options_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>290</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>250</y>
+       <width>114</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Select file ...</string>
+     </property>
+     <property name="checkable">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="renderer_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>210</y>
+       <width>111</width>
+       <height>26</height>
+      </rect>
+     </property>
+     <property name="editable">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="second_tab">
+    <attribute name="title">
+     <string>Advanced</string>
+    </attribute>
+    <widget class="QLabel" name="retries_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>30</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Retries</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="retries_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>30</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>1</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="pool_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>80</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pool</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="pool_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>80</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="owner_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>130</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Owner</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="owner_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>130</y>
+       <width>113</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>SendJob</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>408</x>
+     <y>474</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>SendJob</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>480</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SendJob</receiver>
+   <slot>openFileChooser()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>388</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>486</x>
+     <y>66</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>renderer_box</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>SendJob</receiver>
+   <slot>rendererChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>279</x>
+     <y>252</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>144</x>
+     <y>494</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>openFileChooser()</slot>
+  <slot>rendererChanged()</slot>
+ </slots>
+</ui>
