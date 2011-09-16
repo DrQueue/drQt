@@ -1,5 +1,6 @@
 {
 "engines":[
+  "Blender",
 	"Generic",
 	"MayaRender",
 	"3DLRender",
@@ -9,6 +10,21 @@
 	"Bake"
 ],
 "kojs":{
+    "Blender":{
+        "description":"Blender render job",
+        "extension_filter":["*.blend"],
+        "env_module_preload":"None",
+        "pre_cmd":"${pre_cmd}",
+        "cmd":"blender",
+        "post_cmd":"${post_cmd}",
+        "cmd_options":
+            {
+            "file":"${input_file}",
+            "start_frame":"${start_frame}",
+            "end_frame":"${end_frame}",
+            "step":"1"
+            }
+     },
     "Generic":{
        	"description":"This is a generic command , can be used to run shell commmands",
         "extension_filter":["*"],
