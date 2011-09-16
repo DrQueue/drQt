@@ -218,6 +218,7 @@ class EngineWidget(QtGui.QWidget):
 
 class NewJob(newJob_widget_class, newJob_base_class):
     def __init__(self, parent = None):
+        """Initialize window."""
         super(NewJob, self).__init__(parent)
         self._widgets = {}
         self._current_active_widget = None
@@ -234,11 +235,12 @@ class NewJob(newJob_widget_class, newJob_base_class):
         self.connect(self.PB_submit, QtCore.SIGNAL("clicked()"), self.process)
 
     def process(self, *args):
-        '''return the complete command'''
+        """Return the complete command."""
         current_cmd = self._current_active_widget.get_composed_cmd()
         self._current_active_widget.set_info_line(current_cmd)
        
     def draw_engine(self, engine_name):
+        """Draw all options for specific renderer."""
         engine_dict = self._kojs.get_engine(engine_name)
         engine_widget = EngineWidget(engine_name)
         engine_widget.init_from_dict(engine_dict)
@@ -250,6 +252,7 @@ class NewJob(newJob_widget_class, newJob_base_class):
         self.LY_information.addWidget(engine_widget)
        
     def enable_engine(self, engine_name):
+        """Display selected engine options."""
         for k,v in self._widgets.iteritems():
             v.hide()
            
@@ -263,6 +266,7 @@ class NewJob(newJob_widget_class, newJob_base_class):
         self.process()
        
     def fill_job_types(self):
+        """Fill dropdown menu with available renderers."""
         engines = self._kojs.get_engines()
         self.CB_job_type.addItem(" --- select an engine ---")
         for k in engines:
@@ -271,14 +275,17 @@ class NewJob(newJob_widget_class, newJob_base_class):
            
    
     def add_about_widget(self):
+        """Add about widget."""
         about_widget = AboutWidget()
         self._widgets["about"] = about_widget
         self.LY_information.addWidget(about_widget)
                
 def main():
+    """Initialize application."""
     app = QtGui.QApplication(sys.argv)
     dialog = NewJob()
     dialog.show()
+    dialog.raise_()
     return app.exec_()
 
 if __name__ == "__main__":
