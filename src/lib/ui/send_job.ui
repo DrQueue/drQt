@@ -65,7 +65,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="name_label">
@@ -117,7 +117,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="blocksize_label">
@@ -143,7 +143,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="render_label">
@@ -262,7 +262,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>1</string>
+      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="pool_label">
@@ -312,8 +312,35 @@
      </property>
     </widget>
    </widget>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>About</string>
+    </attribute>
+    <widget class="QWebView" name="webView">
+     <property name="geometry">
+      <rect>
+       <x>9</x>
+       <y>9</y>
+       <width>491</width>
+       <height>401</height>
+      </rect>
+     </property>
+     <property name="url">
+      <url>
+       <string>file:///Applications/MacPorts/Qt4</string>
+      </url>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKit/QWebView</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

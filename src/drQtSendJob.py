@@ -227,7 +227,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         #self.openFileChooser = None
         #self.connect(self, QtCore.SIGNAL("openFileChooser"), QtGui.QFileDialog())
         self.setupUi(self)
-        self.setWindowTitle("Create New Job")
+        self.setWindowTitle("drQt - Create New Job")
         # fill form with default values
         self.set_default_values()
         #self.LB_header.setPixmap(QtGui.QPixmap(os.path.join(icons_path, "drQHeader.png")))
@@ -238,9 +238,12 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         #self.add_about_widget()
         #self.connect(self.CB_job_type, QtCore.SIGNAL("highlighted(QString)"), self.enable_engine)
         #self.connect(self.PB_submit, QtCore.SIGNAL("clicked()"), self.process)
+        # create client connection
         self.client = DrQueueClient()
 
     def set_default_values(self):
+        url = QtCore.QUrl("lib/ui/about.html")
+        self.webView.load(url)
         self.owner_box.setText(getpass.getuser())
         self.startframe_box.setText("1")
         self.endframe_box.setText("1")
@@ -256,15 +259,27 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         print(fileName)
         self.scenefile_box.setText(fileName)
         #print(obj)
+        self.show()
         self.raise_()
     
     def rendererChanged(self):
-        print(str(self.renderer_box.currentText()))
-        
+        active = str(self.renderer_box.currentText())
+        print(active)
+
     def accept(self):
         print("creating job")
         # create job
-        job = DrQueueJob(str(self.name_box.text()), int(str(self.startframe_box.text())), int(str(self.endframe_box.text())), int(str(self.blocksize_box.text())), str(self.renderer_box.currentText()), str(self.scenefile_box.text()), str(self.retries_box.text()), str(self.owner_box.text()), str(self.pool_box.text()), str(self.options_box.text()))
+        name = str(self.name_box.text())
+        startframe = int(str(self.startframe_box.text()))
+        endframe = int(str(self.endframe_box.text()))
+        blocksize = int(str(self.blocksize_box.text()))
+        renderer = str(self.renderer_box.currentText())
+        scenefile = str(self.scenefile_box.text())
+        retries = str(self.retries_box.text())
+        owner = str(self.owner_box.text())
+        pool = str(self.pool_box.text())
+        options = str(self.options_box.text())
+        job = DrQueueJob(name, startframe, endframe, blocksize, renderer, scenefile, retries, owner, pool, options)
         # run job with client
         try:
             print(job)
