@@ -31,7 +31,8 @@ from lib.slaveTab import SlaveNodeTab
 from lib.jobTab import JobTab
 from lib.utils import Timer
 from lib.utils import icons_path
-from drQtNewJob import NewJob
+#from drQtNewJob import NewJob
+from drQtSendJob import SendJob
 import lib.utils
 
 import lib.ui.drQt_UI as drQtUI
@@ -88,7 +89,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
         
     def _raise_new_job(self):
         log.debug("start new job")
-        newjobD = NewJob(self)
+        newjobD = SendJob(self)
         newjobD.show()    
                     
     def _raise_about(self):
