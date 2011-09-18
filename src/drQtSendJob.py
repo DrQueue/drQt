@@ -37,25 +37,14 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
     def __init__(self, parent = None):
         """Initialize window."""
         super(SendJob, self).__init__(parent)
-        #self._widgets = {}
-        #self._current_active_widget = None
-        #self._options_group = None
-        #self.openFileChooser = None
-        #self.connect(self, QtCore.SIGNAL("openFileChooser"), QtGui.QFileDialog())
         self.setupUi(self)
         self.setWindowTitle("drQt - Create New Job")
-        # fill form with default values
-        self.set_default_values()
-        #self.LB_header.setPixmap(QtGui.QPixmap(os.path.join(icons_path, "drQHeader.png")))
-        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "main.svg")))
-        #self._job_ = drqueue.job()
-        #self._kojs = KojsConfigParser(os.path.join(local_path, "kojs.json"))
-        #self.fill_job_types()
-        #self.add_about_widget()
-        #self.connect(self.CB_job_type, QtCore.SIGNAL("highlighted(QString)"), self.enable_engine)
-        #self.connect(self.PB_submit, QtCore.SIGNAL("clicked()"), self.process)
         # create client connection
         self.client = DrQueueClient()
+        # fill form with default values
+        self.set_default_values()
+        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "main.svg")))
+
 
     def set_default_values(self):
         """Set default values on form elements"""
@@ -66,20 +55,40 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         self.endframe_box.setText("1")
         self.blocksize_box.setText("1")
         self.retries_box.setText("1")
+        # load list of supported renderers from DrQueue module
         self.renderer_box.insertItem (0, "Choose renderer")
-        self.renderer_box.insertItem (1, "blender")
-        self.renderer_box.insertItem (2, "maya")
-        self.renderer_box.insertItem (3, "cinema4d")
+        renderers = DrQueue.supported_renderers
+        i = 1
+        for renderer in renderers:
+            self.renderer_box.insertItem (i, renderer)
+            i += 1
+        # load list of available pools
         self.pool_box.insertItem (0, "Choose pool")
         pools = DrQueueComputerPool.query_poolnames()
         i = 1
         for pool in pools:
             self.pool_box.insertItem (i, pool)
             i += 1
+        # load list of supported os from DrQueue module
+        self.os_box.insertItem (0, "Choose OS")
+        supported_os = DrQueue.supported_os
+        i = 1
+        for os in supported_os:
+            self.os_box.insertItem (i, os)
+            i += 1
+        # load list of running jobs
+        self.depend_box.insertItem (0, "Choose running job")
+        running_jobs = self.client.query_running_job_list()
+        i = 1
+        for job in running_jobs:
+            self.depend_box.insertItem (i, job)
+            i += 1
+        # filter for file chooser
+        self.scenefile_filter = "*"
 
     def openFileChooser(self):
         """Open file chooser widget."""
-        fileName = QtGui.QFileDialog.getOpenFileName(self)
+        fileName = QtGui.QFileDialog.getOpenFileName(self, "Choose scenefile", self.scenefile_box.text(), self.scenefile_filter)
         print(fileName)
         self.scenefile_box.setText(fileName)
         self.show()
@@ -90,8 +99,13 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         active = str(self.renderer_box.currentText())
         if active == "blender":
             self.options_box.setText("{'rendertype':'animation'}")
+            self.scenefile_filter = "*.blend"
+        if active == "maya":
+            self.options_box.setText("{'rendertype':'animation'}")
+            self.scenefile_filter = "*.ma *.mb"
         else:
             self.options_box.setText("None")
+            self.scenefile_filter = "*"
         print(active)
 
     def accept(self):
@@ -110,10 +124,15 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # pool needs to have a real value
         if pool == "Choose pool":
             pool = None
+        os = str(self.os_box.currentText())
+        # os needs to have a real value
+        if os == "Choose OS":
+            os = None
         # options need to come in form of a Python dict
         options = eval(str(self.options_box.text()))
         # create job object
         try:
+            # TODO: add os, email, min ram, min cores, depend on job
             job = DrQueueJob(name, startframe, endframe, blocksize, renderer, scenefile, retries, owner, pool, options)
         except ValueError as strerror:
             message = str(strerror)

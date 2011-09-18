@@ -266,7 +266,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>30</y>
+       <y>10</y>
        <width>91</width>
        <height>16</height>
       </rect>
@@ -279,7 +279,7 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>30</y>
+       <y>10</y>
        <width>113</width>
        <height>22</height>
       </rect>
@@ -292,7 +292,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>80</y>
+       <y>50</y>
        <width>91</width>
        <height>16</height>
       </rect>
@@ -305,7 +305,7 @@
      <property name="geometry">
       <rect>
        <x>50</x>
-       <y>130</y>
+       <y>90</y>
        <width>91</width>
        <height>16</height>
       </rect>
@@ -318,7 +318,7 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>130</y>
+       <y>90</y>
        <width>113</width>
        <height>22</height>
       </rect>
@@ -328,7 +328,135 @@
      <property name="geometry">
       <rect>
        <x>190</x>
-       <y>80</y>
+       <y>50</y>
+       <width>161</width>
+       <height>26</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="sendemail_box">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>130</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Send email on finish</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="email_recipients_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>170</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Email recipients</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="email_recipients_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>170</y>
+       <width>181</width>
+       <height>22</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="minram_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>220</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Minimum RAM in GB</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="minram_box">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>210</y>
+       <width>57</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="mincores_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>260</y>
+       <width>131</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Minimum CPU Cores</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="mincores_box">
+     <property name="geometry">
+      <rect>
+       <x>200</x>
+       <y>250</y>
+       <width>57</width>
+       <height>25</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="os_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>300</y>
+       <width>121</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Operating system</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="os_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>290</y>
+       <width>161</width>
+       <height>26</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="depend_label">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>340</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Depend on job</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="depend_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>340</y>
        <width>161</width>
        <height>26</height>
       </rect>
