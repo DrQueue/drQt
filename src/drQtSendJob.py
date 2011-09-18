@@ -32,6 +32,8 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         self.setupUi(self)
         self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "main.svg")))
         self.setWindowTitle("drQt - Create New Job")
+        # disable all extra options tabs
+        self.remove_options_tabs()
         # create client connection
         self.client = DrQueueClient()
         # fill form with default values
@@ -84,27 +86,45 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         self.raise_()
 
 
+    def remove_options_tabs(self):
+        """Remove old tab with extra options"""
+        index = self.tabWidget.indexOf(self.blender_tab)
+        if index != -1:
+            self.tabWidget.removeTab(index)
+        index = self.tabWidget.indexOf(self.maya_tab)
+        if index != -1:
+            self.tabWidget.removeTab(index)
+
+
     def rendererChanged(self):
         """Change extra options when another renderer is selected."""
         active = str(self.renderer_box.currentText())
         if active == "3delight":
             self.options_box.setText("None")
             self.scenefile_filter = "*.rib"
+            self.remove_options_tabs()
         elif active == "3dsmax":
             self.options_box.setText("None")
             self.scenefile_filter = "*.max"
+            self.remove_options_tabs()
         elif active == "blender":
             self.options_box.setText("{'rendertype':'animation'}")
             self.scenefile_filter = "*.blend"
+            self.remove_options_tabs()
+            self.tabWidget.insertTab(1, self.blender_tab, "Blender")
         elif active == "maya":
             self.options_box.setText("None")
             self.scenefile_filter = "*.ma *.mb"
+            self.remove_options_tabs()
+            self.tabWidget.insertTab(1, self.maya_tab, "Maya")
         elif active == "mentalray":
             self.options_box.setText("None")
             self.scenefile_filter = "*.mi"
+            self.remove_options_tabs()
         else:
             self.options_box.setText("None")
             self.scenefile_filter = "*"
+            self.remove_options_tabs()
         print(active)
 
 

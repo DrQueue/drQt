@@ -41,7 +41,7 @@
    <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="first_tab">
+   <widget class="QWidget" name="basic_tab">
     <attribute name="title">
      <string>Basic</string>
     </attribute>
@@ -267,7 +267,43 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="second_tab">
+   <widget class="QWidget" name="blender_tab">
+    <attribute name="title">
+     <string>Blender</string>
+    </attribute>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>211</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Extra options for Blender</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="maya_tab">
+    <attribute name="title">
+     <string>Maya</string>
+    </attribute>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>10</y>
+       <width>211</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Extra options for Maya</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="advanced_tab">
     <attribute name="title">
      <string>Advanced</string>
     </attribute>
@@ -481,7 +517,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab">
+   <widget class="QWidget" name="about_tab">
     <attribute name="title">
      <string>About</string>
     </attribute>
