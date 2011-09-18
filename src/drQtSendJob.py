@@ -7,16 +7,6 @@ import PyQt4.QtGui as QtGui
 import PyQt4.QtCore as QtCore
 import PyQt4.QtWebKit as QtWebKit
 
-from lib.utils import KojsConfigParser
-
-
-os.environ["DEBUG"]="1"
-
-try:
-    # https://github.com/hdd/hlog
-    import hlog as log
-except:
-    import logging as log
 
 try:
     import DrQueue
@@ -33,17 +23,19 @@ from lib.utils import icons_path
 
 local_path = os.path.dirname(__file__)
 
+
 class SendJob(sendJob_widget_class, sendJob_base_class):
     def __init__(self, parent = None):
         """Initialize window."""
         super(SendJob, self).__init__(parent)
+        # setup user interface
         self.setupUi(self)
+        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "main.svg")))
         self.setWindowTitle("drQt - Create New Job")
         # create client connection
         self.client = DrQueueClient()
         # fill form with default values
         self.set_default_values()
-        self.setWindowIcon(QtGui.QIcon(os.path.join(icons_path, "main.svg")))
 
 
     def set_default_values(self):
@@ -86,6 +78,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # filter for file chooser
         self.scenefile_filter = "*"
 
+
     def openFileChooser(self):
         """Open file chooser widget."""
         fileName = QtGui.QFileDialog.getOpenFileName(self, "Choose scenefile", self.scenefile_box.text(), self.scenefile_filter)
@@ -93,20 +86,31 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         self.scenefile_box.setText(fileName)
         self.show()
         self.raise_()
-    
+
+
     def rendererChanged(self):
         """Change extra options when another renderer is selected."""
         active = str(self.renderer_box.currentText())
-        if active == "blender":
+        if active == "3delight":
+            self.options_box.setText("None")
+            self.scenefile_filter = "*.rib"
+        elif active == "3dsmax":
+            self.options_box.setText("None")
+            self.scenefile_filter = "*.max"
+        elif active == "blender":
             self.options_box.setText("{'rendertype':'animation'}")
             self.scenefile_filter = "*.blend"
-        if active == "maya":
-            self.options_box.setText("{'rendertype':'animation'}")
+        elif active == "maya":
+            self.options_box.setText("None")
             self.scenefile_filter = "*.ma *.mb"
+        elif active == "mentalray":
+            self.options_box.setText("None")
+            self.scenefile_filter = "*.mi"
         else:
             self.options_box.setText("None")
             self.scenefile_filter = "*"
         print(active)
+
 
     def accept(self):
         """Take all form values, create job and send it to IPython."""
@@ -128,6 +132,10 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # os needs to have a real value
         if os == "Choose OS":
             os = None
+        depend = str(self.depend_box.currentText())
+        # depend needs to have a real value
+        if depend == "Choose running job":
+            depend = None
         # options need to come in form of a Python dict
         options = eval(str(self.options_box.text()))
         # create job object
@@ -154,6 +162,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
             self.status_green(message)
             return True
 
+
     def status_green(self, text):
         pal = QtGui.QPalette()
         bgc = QtGui.QColor(152, 229, 134)
@@ -163,6 +172,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         self.status_box.setPalette(pal)
         self.status_box.setText(text)
 
+
     def status_red(self, text):
         pal = QtGui.QPalette()
         bgc = QtGui.QColor(229, 91, 91)
@@ -171,7 +181,8 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         pal.setColor(QtGui.QPalette.Text, textc)
         self.status_box.setPalette(pal)
         self.status_box.setText(text)
-               
+
+
 def main():
     """Initialize application."""
     app = QtGui.QApplication(sys.argv)
@@ -179,6 +190,7 @@ def main():
     dialog.show()
     dialog.raise_()
     return app.exec_()
+
 
 if __name__ == "__main__":
     main()
