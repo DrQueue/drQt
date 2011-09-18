@@ -43,10 +43,6 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         url = QtCore.QUrl("lib/ui/about.html")
         self.webView.load(url)
         self.owner_box.setText(getpass.getuser())
-        self.startframe_box.setText("1")
-        self.endframe_box.setText("1")
-        self.blocksize_box.setText("1")
-        self.retries_box.setText("1")
         # load list of supported renderers from DrQueue module
         self.renderer_box.insertItem (0, "Choose renderer")
         renderers = DrQueue.supported_renderers
@@ -117,12 +113,12 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         print("creating job ...")
         # fetch values from form elements
         name = str(self.name_box.text())
-        startframe = int(str(self.startframe_box.text()))
-        endframe = int(str(self.endframe_box.text()))
-        blocksize = int(str(self.blocksize_box.text()))
+        startframe = int(self.startframe_box.value())
+        endframe = int(self.endframe_box.value())
+        blocksize = int(self.blocksize_box.value())
         renderer = str(self.renderer_box.currentText())
         scenefile = str(self.scenefile_box.text())
-        retries = str(self.retries_box.text())
+        retries = int(self.retries_box.value())
         owner = str(self.owner_box.text())
         pool = str(self.pool_box.currentText())
         # pool needs to have a real value
@@ -136,6 +132,8 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # depend needs to have a real value
         if depend == "Choose running job":
             depend = None
+        minram = int(self.minram_box.value())
+        mincores = int(self.mincores_box.value())
         # options need to come in form of a Python dict
         options = eval(str(self.options_box.text()))
         # create job object

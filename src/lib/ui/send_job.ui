@@ -50,22 +50,9 @@
       <rect>
        <x>180</x>
        <y>10</y>
-       <width>113</width>
+       <width>191</width>
        <height>22</height>
       </rect>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="startframe_box">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>60</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="name_label">
@@ -107,19 +94,6 @@
       <string>Endframe</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="endframe_box">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>110</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QLabel" name="blocksize_label">
      <property name="geometry">
       <rect>
@@ -131,19 +105,6 @@
      </property>
      <property name="text">
       <string>Blocksize</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="blocksize_box">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>160</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="render_label">
@@ -177,7 +138,7 @@
       <rect>
        <x>180</x>
        <y>250</y>
-       <width>113</width>
+       <width>171</width>
        <height>22</height>
       </rect>
      </property>
@@ -208,7 +169,7 @@
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>360</x>
        <y>250</y>
        <width>114</width>
        <height>32</height>
@@ -257,6 +218,54 @@
       <string>Status</string>
      </property>
     </widget>
+    <widget class="QSpinBox" name="startframe_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>60</y>
+       <width>57</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>99999</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="endframe_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>110</y>
+       <width>57</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>99999</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="blocksize_box">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>160</y>
+       <width>57</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>99999</number>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="second_tab">
     <attribute name="title">
@@ -273,19 +282,6 @@
      </property>
      <property name="text">
       <string>Retries</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="retries_box">
-     <property name="geometry">
-      <rect>
-       <x>190</x>
-       <y>10</y>
-       <width>113</width>
-       <height>22</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
      </property>
     </widget>
     <widget class="QLabel" name="pool_label">
@@ -392,6 +388,9 @@
        <height>25</height>
       </rect>
      </property>
+     <property name="maximum">
+      <number>999</number>
+     </property>
     </widget>
     <widget class="QLabel" name="mincores_label">
      <property name="geometry">
@@ -414,6 +413,9 @@
        <width>57</width>
        <height>25</height>
       </rect>
+     </property>
+     <property name="maximum">
+      <number>999</number>
      </property>
     </widget>
     <widget class="QLabel" name="os_label">
@@ -460,6 +462,22 @@
        <width>161</width>
        <height>26</height>
       </rect>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="retries_box">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>10</y>
+       <width>57</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="value">
+      <number>1</number>
      </property>
     </widget>
    </widget>
