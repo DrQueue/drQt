@@ -71,7 +71,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         running_jobs = self.client.query_running_job_list()
         i = 1
         for job in running_jobs:
-            self.depend_box.insertItem (i, job)
+            self.depend_box.insertItem (i, job['name'])
             i += 1
         # filter for file chooser
         self.scenefile_filter = "*"
