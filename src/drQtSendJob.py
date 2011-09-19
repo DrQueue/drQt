@@ -100,29 +100,23 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         """Change extra options when another renderer is selected."""
         active = str(self.renderer_box.currentText())
         if active == "3delight":
-            self.options_box.setText("None")
             self.scenefile_filter = "*.rib"
             self.remove_options_tabs()
         elif active == "3dsmax":
-            self.options_box.setText("None")
             self.scenefile_filter = "*.max"
             self.remove_options_tabs()
         elif active == "blender":
-            self.options_box.setText("{'rendertype':'animation'}")
             self.scenefile_filter = "*.blend"
             self.remove_options_tabs()
             self.tabWidget.insertTab(1, self.blender_tab, "Blender")
         elif active == "maya":
-            self.options_box.setText("None")
             self.scenefile_filter = "*.ma *.mb"
             self.remove_options_tabs()
             self.tabWidget.insertTab(1, self.maya_tab, "Maya")
         elif active == "mentalray":
-            self.options_box.setText("None")
             self.scenefile_filter = "*.mi"
             self.remove_options_tabs()
         else:
-            self.options_box.setText("None")
             self.scenefile_filter = "*"
             self.remove_options_tabs()
         print(active)
@@ -144,18 +138,26 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # pool needs to have a real value
         if pool == "Choose pool":
             pool = None
-        os = str(self.os_box.currentText())
+        options = {}
+        options['os'] = str(self.os_box.currentText())
         # os needs to have a real value
-        if os == "Choose OS":
-            os = None
-        depend = str(self.depend_box.currentText())
+        if options['os'] == "Choose OS":
+            options['os'] = None
+        options['depend'] = str(self.depend_box.currentText())
         # depend needs to have a real value
-        if depend == "Choose running job":
-            depend = None
-        minram = int(self.minram_box.value())
-        mincores = int(self.mincores_box.value())
-        # options need to come in form of a Python dict
-        options = eval(str(self.options_box.text()))
+        if options['depend'] == "Choose running job":
+            options['depend'] = None
+        options['minram'] = int(self.minram_box.value())
+        options['mincores'] = int(self.mincores_box.value())
+        options['send_email'] = self.sendemail_box.isChecked()
+        options['email_recipients'] = str(self.email_recipients_box.text())
+        # check renderer specific options
+        if renderer == "blender":
+            # check rendertype
+            if self.animation_button.isChecked():
+                options['rendertype'] = 'animation'
+            else:
+                options['rendertype'] = 'single'
         # create job object
         try:
             # TODO: add os, email, min ram, min cores, depend on job

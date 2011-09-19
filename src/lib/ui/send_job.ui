@@ -143,29 +143,6 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="options_label">
-     <property name="geometry">
-      <rect>
-       <x>40</x>
-       <y>290</y>
-       <width>91</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Options</string>
-     </property>
-    </widget>
-    <widget class="QLineEdit" name="options_box">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>290</y>
-       <width>291</width>
-       <height>22</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
@@ -282,6 +259,48 @@
      </property>
      <property name="text">
       <string>Extra options for Blender</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="rendertype_label">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>60</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Render type</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="animation_button">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>60</y>
+       <width>102</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Animation</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="single_frame_button">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>60</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Single Frame</string>
      </property>
     </widget>
    </widget>
