@@ -94,7 +94,7 @@ class SlaveNodeTab(QtGui.QWidget):
         self._set_tooltip()
         
     def _set_values(self):
-        comp = client.identify_computer(self._drq_node_object)
+        comp = client.identify_computer(self._drq_node_object, 300)
 
         self._tab_id.setText("%d" % self._drq_node_object)
         self._tab_hostname.setText("%s" % comp['hostname'])
@@ -128,7 +128,7 @@ class SlaveNodeTab(QtGui.QWidget):
     def _set_tooltip(self):
         html_tooltip = open(os.path.join(tooltips_path,"node_info.html"), "r")
         tooltipData = {}
-        comp = client.identify_computer(self._drq_node_object)
+        comp = client.identify_computer(self._drq_node_object, 300)
         tooltipData["id"] = self._drq_node_object
         tooltipData["arch"] = comp['arch']
         tooltipData["memory"] = comp['memory']
