@@ -91,7 +91,7 @@ class SlaveNodeTab(QtGui.QWidget):
         
         self._set_values()
         self._set_context()
-        self._set_tooltip()
+        #self._set_tooltip()
         
     def _set_values(self):
         comp = client.identify_computer(self._drq_node_object, 300)
@@ -105,7 +105,7 @@ class SlaveNodeTab(QtGui.QWidget):
         self._tab_procspeed.setText("%s" % comp['procspeed'])
         self._tab_ncpus.setText("%d" % comp['ncpus'])
         self._tab_ncorescpu.setText("%d" % comp['ncorescpu'])
-        self._tab_memory.setText("%s" % comp['memory'])
+        self._tab_memory.setText("%s GB" % comp['memory'])
         #self._tab_running.setText("%s" % "TODO")
         
         #self._tab_loadavg.setText("%d:%d:%d"%(self._drq_node_object.status.get_loadavg(0),
