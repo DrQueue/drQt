@@ -139,16 +139,17 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         if pool == "Choose pool":
             pool = None
         options = {}
-        options['os'] = str(self.os_box.currentText())
+        limits = {}
+        limits['os'] = str(self.os_box.currentText())
         # os needs to have a real value
-        if options['os'] == "Choose OS":
-            options['os'] = None
-        options['depend'] = str(self.depend_box.currentText())
+        if limits['os'] == "Choose OS":
+            limits['os'] = None
+        limits['depend'] = str(self.depend_box.currentText())
         # depend needs to have a real value
-        if options['depend'] == "Choose running job":
-            options['depend'] = None
-        options['minram'] = int(self.minram_box.value())
-        options['mincores'] = int(self.mincores_box.value())
+        if limits['depend'] == "Choose running job":
+            limits['depend'] = None
+        limits['minram'] = int(self.minram_box.value())
+        limits['mincores'] = int(self.mincores_box.value())
         options['send_email'] = self.sendemail_box.isChecked()
         options['email_recipients'] = str(self.email_recipients_box.text())
         # check renderer specific options
@@ -161,7 +162,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # create job object
         try:
             # TODO: add os, email, min ram, min cores, depend on job
-            job = DrQueueJob(name, startframe, endframe, blocksize, renderer, scenefile, retries, owner, pool, options)
+            job = DrQueueJob(name, startframe, endframe, blocksize, renderer, scenefile, retries, owner, pool, options, limits)
         except ValueError as strerror:
             message = str(strerror)
             print(message)
