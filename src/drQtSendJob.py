@@ -134,12 +134,12 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         scenefile = str(self.scenefile_box.text())
         retries = int(self.retries_box.value())
         owner = str(self.owner_box.text())
-        pool = str(self.pool_box.currentText())
-        # pool needs to have a real value
-        if pool == "Choose pool":
-            pool = None
         options = {}
         limits = {}
+        limits['pool'] = str(self.pool_box.currentText())
+        # pool needs to have a real value
+        if limits['pool'] == "Choose pool":
+            limits['pool'] = None
         limits['os'] = str(self.os_box.currentText())
         # os needs to have a real value
         if limits['os'] == "Choose OS":
