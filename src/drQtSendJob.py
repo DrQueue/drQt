@@ -2,6 +2,7 @@
 
 import os, sys
 import getpass
+import time
 
 import PyQt4.QtGui as QtGui
 import PyQt4.QtCore as QtCore
@@ -136,10 +137,10 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         owner = str(self.owner_box.text())
         options = {}
         limits = {}
-        limits['pool'] = str(self.pool_box.currentText())
+        limits['pool_name'] = str(self.pool_box.currentText())
         # pool needs to have a real value
-        if limits['pool'] == "Choose pool":
-            limits['pool'] = None
+        if limits['pool_name'] == "Choose pool":
+            limits['pool_name'] = None
         limits['os'] = str(self.os_box.currentText())
         # os needs to have a real value
         if limits['os'] == "Choose OS":
@@ -162,7 +163,7 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
         # create job object
         try:
             # TODO: add os, email, min ram, min cores, depend on job
-            job = DrQueueJob(name, startframe, endframe, blocksize, renderer, scenefile, retries, owner, pool, options, limits)
+            job = DrQueueJob(name, startframe, endframe, blocksize, renderer, scenefile, retries, owner, options, limits)
         except ValueError as strerror:
             message = str(strerror)
             print(message)
@@ -178,9 +179,11 @@ class SendJob(sendJob_widget_class, sendJob_base_class):
             self.status_red(message)
             return False
         if status == True:
-            message = "Job successfully sent to IPython."
-            print(message)
-            self.status_green(message)
+            #message = "Job successfully sent to IPython."
+            #print(message)
+            #self.status_green(message)
+            #close_after_delay(2)
+            self.close()
             return True
 
 

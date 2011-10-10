@@ -31,7 +31,6 @@ from lib.slaveTab import SlaveNodeTab
 from lib.jobTab import JobTab
 from lib.utils import Timer
 from lib.utils import icons_path
-#from drQtNewJob import NewJob
 from drQtSendJob import SendJob
 import lib.utils
 
@@ -104,6 +103,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
         job_bar = menu_bar.addMenu("&Job")
         new_job = QtGui.QAction("&New Job",self)
         self.connect(new_job, QtCore.SIGNAL('triggered()'), self._raise_new_job)
+        self.connect(self.NewJobButton, QtCore.SIGNAL('clicked()'), self._raise_new_job)
         job_bar.addAction(new_job)
         
         help_bar = menu_bar.addMenu("&Help")
@@ -125,6 +125,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
         
         self.setup_slaves()
         self.init_slaves_tabs()
+
         
     def setup_slaves(self):
         self.TW_node.clear()
@@ -206,7 +207,7 @@ class drQt(drQtUI.Ui_MainWindow,QtGui.QMainWindow):
         self.TW_main.setTabIcon(1,QtGui.QIcon(os.path.join(icons_path, "network-transmit-receive.svg")))
         
     
-    def _create_context(self,QPoint):
+    def _create_context(self, QPoint):
         """ create the context menu """
         newAct = QtGui.QAction("&New Job",self)
         newAct.setToolTip("createa new job")

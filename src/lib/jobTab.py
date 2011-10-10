@@ -147,8 +147,7 @@ class JobTab(QtGui.QWidget):
 
         # currently not supported
         #self._tab_priority.setValue(int(self._drq_job_object.priority))
-
-        self._tab_pool.setText("%s" % str(self._drq_job_object['pool']))
+        self._tab_pool.setText("%s" % str(self._drq_job_object['limits']['pool_name']))
 
 #        id = self._drq_job_object.id
 #        print self._drq_job_object.name
